@@ -6,10 +6,10 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'INCREMENT':
-            const newState = Object.assign({}, state);
-            newState.counter = state.counter + 1;
-            return newState;
-
+            return {
+                ...state,
+                counter: state.counter + 1
+            };
         case 'DECREMENT':
             return {
                 ...state,
@@ -18,27 +18,33 @@ const reducer = (state = initialState, action) => {
         case 'ADD':
             return {
                 ...state,
-                counter: state.counter + action.val
+                counter: state.counter + action.value
             };
         case 'SUBTRACT':
             return {
                 ...state,
-                counter: state.counter - action.val
+                counter: state.counter - action.value
             };
         case 'STORE_RESULT':
             return {
                 ...state,
-                // .push mutates the original results...concat creates new array
                 results: state.results.concat({
                     id: new Date(),
-                    value: state.counter
+                    val: state.counter
                 })
             };
-        case 'DELETE_RESULT':
-            // const id = 2;
+        case 'STORE_RESULT':
+            return {
+                ...state,
+                results: state.results.concat({
+                    id: new Date(),
+                    val: state.counter
+                })
+            };
+        case 'STORE_RESULT':
+            // const id=2;
             // const newArray = [...state.results];
-            // newArray.splice(id, 1)
-            // .filter returns a new array and takes a fn as input
+            // newArray.splice(id,1)
             const updatedArray = state.results.filter(
                 result => result.id !== action.resultElId
             );
@@ -47,7 +53,6 @@ const reducer = (state = initialState, action) => {
                 results: updatedArray
             };
     }
-
     return state;
 };
 
